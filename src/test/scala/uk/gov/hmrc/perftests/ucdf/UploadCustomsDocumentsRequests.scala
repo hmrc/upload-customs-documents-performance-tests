@@ -30,8 +30,9 @@ import scala.util.Random
 
 object UploadCustomsDocumentsRequests extends ServicesConfiguration {
 
-  val baseUrl: String = baseUrlFor("upload-customs-documents-frontend")
-  val route: String   = "upload-customs-documents"
+  val baseUrl: String         = baseUrlFor("upload-customs-documents-frontend")
+  val baseInternalUrl: String = baseUrlFor("upload-customs-documents-frontend-internal")
+  val route: String           = "upload-customs-documents"
 
   val harnessBaseUrl: String = baseUrlFor("upload-customs-documents-test-harness-frontend")
   val harnessRoute: String   = "upload-customs-documents-test-harness"
@@ -56,7 +57,7 @@ object UploadCustomsDocumentsRequests extends ServicesConfiguration {
     http("Post initialize file upload")
       .post(s"$harnessBaseUrl/$harnessRoute": String)
       .formParam("csrfToken", "${csrfToken}")
-      .formParam("url", baseUrl)
+      .formParam("url", baseInternalUrl)
       .formParam("userAgent", "cds-reimbursement-claim-frontend")
       .formParam(
         "json",

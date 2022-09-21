@@ -24,21 +24,23 @@ import io.gatling.http.check.header.HttpHeaderCheckType
 import io.gatling.http.check.header.HttpHeaderRegexCheckType
 import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 object AwesomeStubRequests extends ServicesConfiguration {
 
-  val baseUrlAwesomeStubs: String = baseUrlFor("awesome-stubs")
+  val baseUrlAwesomeStubs: String         = baseUrlFor("awesome-stubs")
+  val baseUrlAwesomeFrontendStubs: String = baseUrlFor("awesome-stubs-frontend")
+  val route: String                       = "agents-external-stubs"
 
   val postSignInUrl         = s"$baseUrlAwesomeStubs/agents-external-stubs/sign-in"
   val updateUserUrl         = s"$baseUrlAwesomeStubs/agents-external-stubs/users"
   val updateSpecificUserUrl = s"$baseUrlAwesomeStubs/agents-external-stubs/users/$${userId}"
 
-  val baseUrlCdsReimbursement: String = baseUrlFor("cds-reimbursement-claim-frontend")
-  val prefixCdsReimbursement: String  = "claim-back-import-duty-vat"
-
-  val loginUrl: String       = s"http://localhost:9949/gg/sign-in"
+  val loginUrl: String       = s"$baseUrlAwesomeFrontendStubs/$route/gg/sign-in"
+  val redirectUrl: String    = s"$baseUrlAwesomeFrontendStubs/$route/user"
   val loginSubmitUrl: String =
-    s"http://localhost:9949/gg/sign-in?continue=http%3A%2F%2Flocalhost%3A7500%2Fclaim-back-import-duty-vat%2Fstart-new-return&origin=CDSRC"
+    s"$baseUrlAwesomeFrontendStubs/$route/gg/sign-in?continue=${URLEncoder.encode(redirectUrl, StandardCharsets.UTF_8)}&origin=UCDF"
 
   def getLoginPage: HttpRequestBuilder =
     http("Get login stub page")
@@ -92,7 +94,7 @@ object AwesomeStubRequests extends ServicesConfiguration {
       .formParam("userId", "${userId}")
       .formParam("planetId", "${planetId}")
       .check(status.is(303))
-      .check(header("Location").is(s"$baseUrlCdsReimbursement/$prefixCdsReimbursement/start-new-return": String))
+      .check(header("Location").is(redirectUrl: String))
 
   private val csrfPattern           = """<input type="hidden" name="csrfToken" value="([^"]+)"""
   private val userDetailsUrlPattern = s"""([^"]+)"""

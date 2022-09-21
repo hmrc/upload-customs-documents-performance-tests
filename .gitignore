@@ -25,5 +25,7 @@ lib_managed
 src_managed/
 project/project
 project/target
-.vscode/
-.metals/
+.vscode
+.metals
+.bloop
+project/metals.sbt
