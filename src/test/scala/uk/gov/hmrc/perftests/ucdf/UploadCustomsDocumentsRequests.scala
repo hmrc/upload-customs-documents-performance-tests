@@ -187,7 +187,7 @@ object UploadCustomsDocumentsRequests extends ServicesConfiguration {
       .check(regex(s"image_$index.jpeg"))
 
   def getTheFullSummaryPage: HttpRequestBuilder =
-    http("Get upload summary page")
+    http("Get full upload summary page")
       .get(s"$baseUrl/$route/summary": String)
       .check(status.is(200))
       .check(regex(s"Documents you’ve uploaded"))
