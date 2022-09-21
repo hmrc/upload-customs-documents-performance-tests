@@ -1,7 +1,5 @@
-**This is a template README.md.  Be sure to update this with project specific content that describes your performance test project.**
-
 # upload-customs-documents-performance-tests
-Performance test suite for the `<digital service name>`, using [performance-test-runner](https://github.com/hmrc/performance-test-runner) under the hood.
+Performance test suite for the [upload-customs-documents-frontend](https://github.com/hmrc/upload-customs-documents-frontend), using [performance-test-runner](https://github.com/hmrc/performance-test-runner) under the hood and the [upload-customs-documents-test-harness-frontend](https://github.com/hmrc/upload-customs-documents-test-harness-frontend).
 
 
 ## Running the tests
@@ -13,12 +11,10 @@ Prior to executing the tests ensure you have:
 
 Run the following command to start the services locally:
 ```
-docker run --rm -d --name mongo -d -p 27017:27017 mongo:4.0
+docker run --rm -d --name mongo -d -p 27017:27017 mongo:3.6
 
-sm --start PLATFORM_EXAMPLE_UI_TESTS -r --wait 100
+sm --start UPLOAD_CUSTOMS_DOCUMENTS_PERFTEST
 ```
-
-Using the `--wait 100` argument ensures a health check is run on all the services started as part of the profile. `100` refers to the given number of seconds to wait for services to pass health checks.
 
 ## Logging
 
@@ -28,12 +24,12 @@ The template uses [logback.xml](src/test/resources) to configure log levels. The
 
 It might be useful to try the journey with one user to check that everything works fine before running the full performance test
 ```
-sbt -Dperftest.runSmokeTest=true -DrunLocal=true gatling:test
+sbt -Dperftest.runSmokeTest=true -DrunLocal=true -DuseAwesomeStubs=true gatling:test
 ```
 
 #### Running the performance test
 ```
-sbt -DrunLocal=true gatling:test
+sbt -DrunLocal=true -DuseAwesomeStubs=true gatling:test
 ```
 ### Run the example test against staging environment
 
@@ -61,4 +57,8 @@ To run a full performance test against staging environment, implement a job buil
  sbt scalafmtCheckAll scalafmtSbtCheck
  ```
 
+performance test job on staging
+```
+https://performance.tools.staging.tax.service.gov.uk/job/upload-customs-documents-performance-tests/
+```
 [Visit the official Scalafmt documentation to view a complete list of tasks which can be run.](https://scalameta.org/scalafmt/docs/installation.html#task-keys)
