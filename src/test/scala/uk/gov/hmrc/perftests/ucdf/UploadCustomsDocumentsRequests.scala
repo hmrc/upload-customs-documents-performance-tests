@@ -34,8 +34,9 @@ object UploadCustomsDocumentsRequests extends ServicesConfiguration {
   val baseInternalUrl: String = baseUrlFor("upload-customs-documents-frontend-internal")
   val route: String           = "upload-customs-documents"
 
-  val harnessBaseUrl: String = baseUrlFor("upload-customs-documents-test-harness-frontend")
-  val harnessRoute: String   = "upload-customs-documents-test-harness"
+  val harnessBaseUrl: String         = baseUrlFor("upload-customs-documents-test-harness-frontend")
+  val harnessBaseInternalUrl: String = baseUrlFor("upload-customs-documents-test-harness-frontend-internal")
+  val harnessRoute: String           = "upload-customs-documents-test-harness"
 
   val CsrfPattern = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
@@ -67,7 +68,7 @@ object UploadCustomsDocumentsRequests extends ServicesConfiguration {
         |    "nonce" : $${nonce},
         |    "continueUrl" : "$harnessBaseUrl/$harnessRoute/files/$${nonce}",
         |    "backlinkUrl" : "$harnessBaseUrl/$harnessRoute",
-        |    "callbackUrl" : "$harnessBaseUrl/internal/receive-file-uploads",
+        |    "callbackUrl" : "$harnessBaseInternalUrl/internal/receive-file-uploads",
         |    "minimumNumberOfFiles" : 1,
         |    "maximumNumberOfFiles" : 50,
         |    "initialNumberOfEmptyRows" : 1,
