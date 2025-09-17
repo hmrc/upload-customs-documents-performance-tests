@@ -18,9 +18,10 @@ package uk.gov.hmrc.perftests.cdsrc
 
 import io.gatling.core.Predef._
 import io.gatling.core.check.CheckBuilder
-import io.gatling.core.check.regex.RegexCheckType
+import io.gatling.core.check.css.CssCheckType
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
+import jodd.lagarto.dom.NodeSelector
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
 object AuthLoginStubRequests extends ServicesConfiguration {
@@ -30,11 +31,12 @@ object AuthLoginStubRequests extends ServicesConfiguration {
 
   val CsrfPattern = """<input type="hidden" name="csrfToken" value="([^"]+)""""
 
-  def saveCsrfToken(): CheckBuilder[RegexCheckType, String, String] = regex(_ => CsrfPattern).saveAs("csrfToken")
+   def saveCsrfToken: CheckBuilder[CssCheckType, NodeSelector] = css("input[name='csrfToken']", "value").optional.saveAs("csrfToken")
 
   def getMRNAuthLoginPage: HttpRequestBuilder =
     http("Navigate to auth login stub page")
       .get(s"$authUrl/auth-login-stub/gg-sign-in")
+      .check(saveCsrfToken)
       .check(status.is(200))
       .check(regex("Authority Wizard").exists)
       .check(regex("CredID").exists)
@@ -47,10 +49,11 @@ object AuthLoginStubRequests extends ServicesConfiguration {
   ): HttpRequestBuilder =
     http("Login with user credentials")
       .post(s"$authUrl/auth-login-stub/gg-sign-in")
+      .check(saveCsrfToken)
       .formParam("authorityId", "")
       .formParam("gatewayToken", "")
       .formParam("redirectionUrl", redirect)
-      .formParam("credentialStrength", "weak")
+      .formParam("credentialStrength", "strong")
       .formParam("confidenceLevel", "50")
       .formParam("affinityGroup", "Individual")
       .formParam("usersName", "")
