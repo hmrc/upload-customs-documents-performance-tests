@@ -44,7 +44,7 @@ class Simulation extends PerformanceTestRunner {
       List[ActionBuilder](
         UploadCustomsDocumentsRequests.getTheInitializeFileUploadPage,
         UploadCustomsDocumentsRequests.postTheInitializationRequest,
-        UploadCustomsDocumentsRequests.setJSDetectionCookie,
+        UploadCustomsDocumentsRequests.setJSDetectionCookie(),
         UploadCustomsDocumentsRequests.getTheMultiFileUploadPage
       ) ++
       (1 to 13).flatMap { index =>

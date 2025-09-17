@@ -56,6 +56,7 @@ object AwesomeStubRequests extends ServicesConfiguration {
       |  "planetId":"cdsrc"
       }""".stripMargin))
       .header("Content-Type", "application/json")
+     // .check(saveCsrfToken)
       .check(status.in(201, 202))
       .check(saveUserDetailsUrl)
       .check(saveBearerTokenHeader)
@@ -83,37 +84,37 @@ object AwesomeStubRequests extends ServicesConfiguration {
                           |}
     """.stripMargin))
       .header("Content-Type", "application/json")
-      .header("Authorization", "Bearer ${bearerToken}")
+      .header("Authorization", "Bearer #{bearerToken}")
       .check(status.is(202))
-      .check(header("Location").is("/agents-external-stubs/users/${userId}"))
+      .check(header("Location").is("/agents-external-stubs/users/#{userId}"))
 
   def postSuccessfulLogin: HttpRequestBuilder =
     http("Login with user credentials")
       .post(loginSubmitUrl)
-      .formParam("csrfToken", "${csrfToken}")
-      .formParam("userId", "${userId}")
-      .formParam("planetId", "${planetId}")
+      .formParam("csrfToken", "#{csrfToken}")
+      .formParam("userId", "#{userId}")
+      .formParam("planetId", "#{planetId}")
       .check(status.is(303))
       .check(header("Location").is(redirectUrl: String))
 
   private val csrfPattern           = """<input type="hidden" name="csrfToken" value="([^"]+)"""
   private val userDetailsUrlPattern = s"""([^"]+)"""
 
-  private def saveCsrfToken: CheckBuilder[RegexCheckType, String, String] =
+  private def saveCsrfToken: CheckBuilder[RegexCheckType, String] =
     regex(_ => csrfPattern).saveAs("csrfToken")
 
-  private def saveBearerTokenHeader: CheckBuilder[HttpHeaderRegexCheckType, Response, String] =
+  private def saveBearerTokenHeader: CheckBuilder[HttpHeaderRegexCheckType, Response] =
     headerRegex("Authorization", """Bearer\s([^"]+)""").saveAs("bearerToken")
 
-  private def saveSessionIdHeader: CheckBuilder[HttpHeaderCheckType, Response, String] =
+  private def saveSessionIdHeader: CheckBuilder[HttpHeaderCheckType, Response] =
     header("X-Session-ID").saveAs("sessionId")
 
-  private def savePlanetIdHeader: CheckBuilder[HttpHeaderCheckType, Response, String] =
+  private def savePlanetIdHeader: CheckBuilder[HttpHeaderCheckType, Response] =
     header("X-Planet-ID").saveAs("planetId")
 
-  private def saveUserIdHeader: CheckBuilder[HttpHeaderCheckType, Response, String] =
+  private def saveUserIdHeader: CheckBuilder[HttpHeaderCheckType, Response] =
     header("X-User-ID").saveAs("userId")
 
-  private def saveUserDetailsUrl: CheckBuilder[HttpHeaderRegexCheckType, Response, String] =
+  private def saveUserDetailsUrl: CheckBuilder[HttpHeaderRegexCheckType, Response] =
     headerRegex("Location", userDetailsUrlPattern).saveAs("userDetailsUrl")
 }

@@ -2,8 +2,11 @@ lazy val root = (project in file("."))
   .enablePlugins(GatlingPlugin)
   .settings(
     name := "upload-customs-documents-performance-tests",
-    version := "0.1.0-SNAPSHOT",
-    scalaVersion := "2.12.13",
+    //version := "0.1.0-SNAPSHOT",
+    version := "3.3.6",
+    isPublicArtefact := true,
+    crossScalaVersions := Seq("2.13.16", "3.3.6"),
+    scalaVersion := crossScalaVersions.value.head,
     //implicitConversions & postfixOps are Gatling recommended -language settings
     scalacOptions ++= Seq("-feature", "-language:implicitConversions", "-language:postfixOps"),
     // Enabling sbt-auto-build plugin provides DefaultBuildSettings with default `testOptions` from `sbt-settings` plugin.
@@ -11,3 +14,4 @@ lazy val root = (project in file("."))
     Test / testOptions := Seq.empty,
     libraryDependencies ++= Dependencies.test
   )
+  .settings(ThisBuild / useSuperShell := false)
