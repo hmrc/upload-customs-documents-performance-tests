@@ -56,7 +56,6 @@ object AwesomeStubRequests extends ServicesConfiguration {
       |  "planetId":"cdsrc"
       }""".stripMargin))
       .header("Content-Type", "application/json")
-     // .check(saveCsrfToken)
       .check(status.in(201, 202))
       .check(saveUserDetailsUrl)
       .check(saveBearerTokenHeader)
