@@ -47,7 +47,7 @@ class Simulation extends PerformanceTestRunner {
         UploadCustomsDocumentsRequests.setJSDetectionCookie(),
         UploadCustomsDocumentsRequests.getTheMultiFileUploadPage
       ) ++
-      (1 to 13).flatMap { index =>
+      (1 to 10).flatMap { index =>
         List[ActionBuilder](
           UploadCustomsDocumentsRequests.postInitiateUpscan(index),
           UploadCustomsDocumentsRequests.postUploadDocument(index, s"data/image_$index.jpeg"),

@@ -12,8 +12,8 @@ Prior to executing the tests ensure you have:
 Run the following command to start the services locally:
 ```
 docker run --rm -d --name mongo -d -p 27017:27017 mongo:3.6
-
-sm --start UPLOAD_CUSTOMS_DOCUMENTS_PERFTEST
+sm2 -start CDSRC_ALL
+sm2 -start UPLOAD_CUSTOMS_DOCUMENTS_TEST_HARNESS_FRONTEND
 ```
 
 ## Logging
@@ -24,18 +24,18 @@ The template uses [logback.xml](src/test/resources) to configure log levels. The
 
 It might be useful to try the journey with one user to check that everything works fine before running the full performance test
 ```
-sbt -Dperftest.runSmokeTest=true -DrunLocal=true -DuseAwesomeStubs=true gatling:test
+sbt -Dperftest.runSmokeTest=true -DrunLocal=true  Gatling/test
 ```
 
 #### Running the performance test
 ```
-sbt -DrunLocal=true -DuseAwesomeStubs=true gatling:test
+sbt -DrunLocal=true -DuseAwesomeStubs=true Gatling/test
 ```
 ### Run the example test against staging environment
 
 #### Smoke test
 ```
-sbt -Dperftest.runSmokeTest=true -DrunLocal=false gatling:test
+sbt -Dperftest.runSmokeTest=true -DrunLocal=false Gatling/test
 ```
 
 #### Run the performance test
