@@ -29,7 +29,7 @@ sbt -Dperftest.runSmokeTest=true -DrunLocal=true  Gatling/test
 
 #### Running the performance test
 ```
-sbt -DrunLocal=true -DuseAwesomeStubs=true Gatling/test
+sbt -DrunLocal=true Gatling/test
 ```
 ### Run the example test against staging environment
 
@@ -41,6 +41,7 @@ sbt -Dperftest.runSmokeTest=true -DrunLocal=false Gatling/test
 #### Run the performance test
 
 To run a full performance test against staging environment, implement a job builder and run the test **only** from Jenkins.
+Note:- Due to the limitation of load on upscan staging , runs with low JPS .Make sure to run in jenkins with less load (1-5)
 
 ### Scalafmt
  This repository uses [Scalafmt](https://scalameta.org/scalafmt/), a code formatter for Scala. The formatting rules configured for this repository are defined within [.scalafmt.conf](.scalafmt.conf).
