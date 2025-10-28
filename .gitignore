@@ -29,3 +29,4 @@ project/target
 .metals
 .bloop
 project/metals.sbt
+.cursor/mcp.json

@@ -50,7 +50,7 @@ class Simulation extends PerformanceTestRunner {
       (1 to 10).flatMap { index =>
         List[ActionBuilder](
           UploadCustomsDocumentsRequests.postInitiateUpscan(index),
-          UploadCustomsDocumentsRequests.postUploadDocument(index, s"data/image_$index.jpeg"),
+          UploadCustomsDocumentsRequests.postUploadDocument(index, s"data/example-$index.txt"),
           UploadCustomsDocumentsRequests.getUpscanUploadResponse(index)
         ) ++ UploadCustomsDocumentsRequests.getFileVerificationStatus(index) ++
           List[ActionBuilder](
