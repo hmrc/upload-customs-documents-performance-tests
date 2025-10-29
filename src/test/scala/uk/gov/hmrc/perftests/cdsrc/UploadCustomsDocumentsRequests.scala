@@ -70,7 +70,7 @@ object UploadCustomsDocumentsRequests extends ServicesConfiguration {
         |    "nonce" : 12345,
         |    "continueUrl" : "$harnessBaseUrl/$harnessRoute/files/12345",
         |    "backlinkUrl" : "$harnessBaseUrl/$harnessRoute",
-        |    "callbackUrl" : "$harnessBaseUrl/internal/receive-file-uploads",
+        |    "callbackUrl" : "$harnessBaseUrl/receive-file-uploads",
         |    "minimumNumberOfFiles" : 1,
         |    "maximumNumberOfFiles" : 50,
         |    "initialNumberOfEmptyRows" : 1,
